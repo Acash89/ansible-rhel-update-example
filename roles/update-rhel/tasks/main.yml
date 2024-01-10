@@ -20,13 +20,13 @@
     msg: "{{ packages_list_pre_update }}"
 
 - name: ensure deltarpm installed
-  yum:
+  dnf:
     name: deltarpm
     state: present
   when: ansible_distribution_major_version|int < 8
 
 - name: check for missing updates
-  yum:
+  dnf:
     list: updates
   become: yes
   register: available_updates
@@ -40,7 +40,7 @@
   when: available_updates.results is defined
 
 - name: update packages
-  yum:
+  dnf:
     name: "{{ update_distro_packages | default('*') }}"
     exclude: "{{ update_distro_packages_excludes | join(',') }}"
     state: latest
@@ -50,7 +50,7 @@
   ignore_errors: yes
 
 - name: check for missing updates
-  yum:
+  dnf:
     list: updates
   become: yes
   register: available_updates
