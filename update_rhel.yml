@@ -1,5 +1,7 @@
 - name: install RHEL updates
   hosts: all
+  become: yes
+  become_method: sudo
 
   roles:
     - update-rhel
